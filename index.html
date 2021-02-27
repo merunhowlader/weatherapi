@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="slocation" placeholder="location name">
+        <button class="sbtn">Search</button>
+
+    </div>
+    <div class="section">
+       <div class="weather-icon"><img src="icons/unknown.png" alt=""></div> 
+        <h2 id="locationname"></h2>
+        <h2 id="temperature"></h2>
+        <h5 id="description"></h5>
+    </div>
+
+    <script>
+        
+        
+
+        function displayData(name){
+
+            const sLocation=name;
+            
+
+
+            if(name!=""){
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${sLocation}&appid=4fa010935f29239ec3e98b9ce73e1559`)
+            .then(res=>res.json())
+            .then(data=>{
+            
+            const icon = data.weather[0];
+           
+            document.querySelector('.weather-icon').innerHTML = `<img src="icons/${icon.icon}.png">`;
+            document.getElementById('locationname').innerText=data.name;
+            document.getElementById('description').innerText=data.weather[0].description;
+            
+            document.getElementById('temperature').innerText= ` ${data.main.temp- 273.15} °C ` ;
+            console.log(data);    
+             })
+
+
+            }
+                
+
+        }
+
+        
+        
+        const sbtn=document.querySelector('.sbtn').addEventListener('click',()=>{
+            const slocation= document.getElementById('slocation').value;
+            displayData(slocation)
+            
+
+        })
+        
+    </script>
+
+    
+</body>
+</html>
